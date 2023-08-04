@@ -1,0 +1,75 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "MERN",
+    "dateExported": "2023-08-04T09:15:32.257Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1c2603f5-64f7-4731-b3e2-1b24abb5afbd",
+            "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
+            "containerId": "",
+            "name": "Get All Jobs",
+            "url": "{{URL}}/jobs",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-08-04T08:05:02.984Z",
+            "modified": "2023-08-04T08:06:08.387Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7ee808cd-db74-4270-8cd2-897b4a4d765d",
+            "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
+            "containerId": "",
+            "name": "Get Single Job",
+            "url": "{{URL}}/jobs/9BSU52B4h9RxOGtZEt8ui",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-08-04T08:57:11.568Z",
+            "modified": "2023-08-04T09:06:02.906Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c6043b99-391e-498e-a985-dbfccddbccc6",
+            "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
+            "containerId": "",
+            "name": "Edit Job",
+            "url": "{{URL}}/jobs/1NE7rKUm1ggtlG7d5eN4X",
+            "method": "PATCH",
+            "sortNum": 17500,
+            "created": "2023-08-04T09:13:08.937Z",
+            "modified": "2023-08-04T09:14:35.257Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"company\":\"MCDonalds\",\n  \"position\":\"janitor-lead\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1b4f40d3-c580-43eb-974b-04f820f0d511",
+            "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
+            "containerId": "",
+            "name": "Create Job",
+            "url": "{{URL}}/jobs",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-08-04T08:17:42.528Z",
+            "modified": "2023-08-04T08:18:43.101Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"company\":\"MCDonalds\",\n  \"position\":\"janitor\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
