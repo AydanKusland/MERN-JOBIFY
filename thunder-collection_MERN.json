@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "MERN",
-    "dateExported": "2023-08-04T09:15:32.257Z",
+    "dateExported": "2023-08-07T11:27:49.337Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -14,7 +14,7 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-08-04T08:05:02.984Z",
-            "modified": "2023-08-04T08:06:08.387Z",
+            "modified": "2023-08-07T11:23:28.029Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -24,11 +24,11 @@
             "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
             "containerId": "",
             "name": "Get Single Job",
-            "url": "{{URL}}/jobs/9BSU52B4h9RxOGtZEt8ui",
+            "url": "{{URL}}/jobs/64d0c232ae09114f9a7a3cf1",
             "method": "GET",
             "sortNum": 15000,
             "created": "2023-08-04T08:57:11.568Z",
-            "modified": "2023-08-04T09:06:02.906Z",
+            "modified": "2023-08-07T11:23:49.687Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -38,18 +38,32 @@
             "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
             "containerId": "",
             "name": "Edit Job",
-            "url": "{{URL}}/jobs/1NE7rKUm1ggtlG7d5eN4X",
+            "url": "{{URL}}/jobs/0",
             "method": "PATCH",
             "sortNum": 17500,
             "created": "2023-08-04T09:13:08.937Z",
-            "modified": "2023-08-04T09:14:35.257Z",
+            "modified": "2023-08-07T11:26:55.041Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"company\":\"MCDonalds\",\n  \"position\":\"janitor-lead\"\n}",
+                "raw": "{\n  \"position\":\"janitorsha\"\n}",
                 "form": []
             },
+            "tests": []
+        },
+        {
+            "_id": "491f19fa-3c51-498c-939e-3233264298c3",
+            "colId": "79f611ab-365d-4e9a-8c8d-9ba54bc6c4e5",
+            "containerId": "",
+            "name": "Delete Job",
+            "url": "{{URL}}/jobs/64d0c225ae09114f9a7a3cee",
+            "method": "DELETE",
+            "sortNum": 18750,
+            "created": "2023-08-07T07:17:40.624Z",
+            "modified": "2023-08-07T10:07:04.179Z",
+            "headers": [],
+            "params": [],
             "tests": []
         },
         {
@@ -61,12 +75,12 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-08-04T08:17:42.528Z",
-            "modified": "2023-08-04T08:18:43.101Z",
+            "modified": "2023-08-07T10:06:49.077Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"company\":\"MCDonalds\",\n  \"position\":\"janitor\"\n}",
+                "raw": "{\n  \"company\":\"S3\",\n  \"position\":\"body\"\n}",
                 "form": []
             },
             "tests": []
