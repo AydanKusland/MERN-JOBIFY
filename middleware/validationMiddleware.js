@@ -1,5 +1,9 @@
-import { body, validationResult } from 'express-validator'
-import { BadRequestError } from '../errors/customErrors.js'
+import { body, param, validationResult } from 'express-validator'
+import { BadRequestError, NotFoundError } from '../errors/customErrors.js'
+import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js'
+import mongoose from 'mongoose'
+import Job from '../models/JobModel.js'
+import User from '../models/UserModel.js'
 
 const withValidationErrors = validateValues => {
 	return [
@@ -8,19 +12,52 @@ const withValidationErrors = validateValues => {
 			const errors = validationResult(req)
 			if (!errors.isEmpty()) {
 				const errorMessages = errors.array().map(error => error.msg)
+				if (errorMessages[0].startsWith('no job'))
+					throw new NotFoundError(errorMessages)
 				throw new BadRequestError(errorMessages)
 			}
-			console.log(errors)
 			next()
 		}
 	]
 }
 
-export const validateTest = withValidationErrors([
-	body('name')
+export const validateJobInput = withValidationErrors([
+	body('company').notEmpty().withMessage('company is required'),
+	body('position').notEmpty().withMessage('position is required'),
+	body('jobLocation').notEmpty().withMessage('job location is required'),
+	body('jobStatus')
+		.isIn(Object.values(JOB_STATUS))
+		.withMessage('invalid status value'),
+	body('jobType')
+		.isIn(Object.values(JOB_TYPE))
+		.withMessage('invalid type value')
+])
+
+export const validateIdParam = withValidationErrors([
+	param('id').custom(async value => {
+		const isValidId = mongoose.Types.ObjectId.isValid(value)
+		if (!isValidId) throw new Error('invalid MongoDB id')
+		const job = await Job.findById(value)
+		if (!job) throw new Error(`no job with id ${value}`)
+	})
+])
+
+export const validateRegisterInput = withValidationErrors([
+	body('name').notEmpty().withMessage('name is required'),
+	body('lastName').notEmpty().withMessage('last name is required'),
+	body('email')
+		.isEmail()
+		.withMessage('invalid email format')
+		.custom(async email => {
+			const user = await User.findOne({ email })
+			if (user) {
+				throw new BadRequestError('email already exists')
+			}
+		}),
+	body('name').notEmpty().withMessage('name is required'),
+	body('password')
 		.notEmpty()
-		.withMessage('name is required')
-		.isLength({ min: 3, max: 50 })
-		.withMessage('name must be between 3 and 50 characters long')
-		.trim()
+		.withMessage('password is required')
+		.isLength({ min: 8 })
+		.withMessage('password must be at least 8 characters long')
 ])
