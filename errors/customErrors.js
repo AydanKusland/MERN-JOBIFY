@@ -18,6 +18,12 @@ export class UnauthenticatedError extends Error {
 		this.statusCode = StatusCodes.UNAUTHORIZED
 	}
 }
+export class UnauthorizedError extends Error {
+	constructor(message) {
+		super(message)
+		this.statusCode = StatusCodes.FORBIDDEN
+	}
+}
 export class Forbidden extends Error {
 	constructor(message) {
 		super(message)

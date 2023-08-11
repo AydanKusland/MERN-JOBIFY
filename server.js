@@ -5,22 +5,26 @@ import express from 'express'
 const app = express()
 import morgan from 'morgan'
 import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
 
 // routers
 import jobRouter from './routs/jobRouter.js'
 import { authRouter } from './routs/authRouter.js'
+import userRouter from './routs/userRouter.js'
 
 //middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
+import { authenticateUser } from './middleware/authMiddleware.js'
 
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'))
 }
-
+app.use(cookieParser())
 app.use(express.json())
 
-app.use('/api/v1/jobs', jobRouter)
+app.use('/api/v1/jobs', authenticateUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', authenticateUser, userRouter)
 
 app.use('*', (req, res) => {
 	res.status(404).json({ msg: 'page not found' })

@@ -1,5 +1,9 @@
 import { body, param, validationResult } from 'express-validator'
-import { BadRequestError, NotFoundError } from '../errors/customErrors.js'
+import {
+	BadRequestError,
+	NotFoundError,
+	UnauthorizedError
+} from '../errors/customErrors.js'
 import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js'
 import mongoose from 'mongoose'
 import Job from '../models/JobModel.js'
@@ -14,6 +18,8 @@ const withValidationErrors = validateValues => {
 				const errorMessages = errors.array().map(error => error.msg)
 				if (errorMessages[0].startsWith('no job'))
 					throw new NotFoundError(errorMessages)
+				if (errorMessages[0].startsWith('not authorized'))
+					throw new UnauthorizedError('not authorized to access this route')
 				throw new BadRequestError(errorMessages)
 			}
 			next()
@@ -34,11 +40,15 @@ export const validateJobInput = withValidationErrors([
 ])
 
 export const validateIdParam = withValidationErrors([
-	param('id').custom(async value => {
+	param('id').custom(async (value, { req }) => {
 		const isValidId = mongoose.Types.ObjectId.isValid(value)
 		if (!isValidId) throw new Error('invalid MongoDB id')
 		const job = await Job.findById(value)
 		if (!job) throw new Error(`no job with id ${value}`)
+		const isAdmin = req.user.role === 'admin'
+		const isOwner = req.user.userId === job.createdBy.toString()
+		if (!isAdmin && !isOwner)
+			throw new UnauthorizedError('not authorized to access this route')
 	})
 ])
 
@@ -60,4 +70,24 @@ export const validateRegisterInput = withValidationErrors([
 		.withMessage('password is required')
 		.isLength({ min: 8 })
 		.withMessage('password must be at least 8 characters long')
+])
+
+export const validateLoginInput = withValidationErrors([
+	body('email').isEmail().withMessage('invalid email format'),
+	body('password').notEmpty().withMessage('password is required')
+])
+
+export const validateUpdateUserInput = withValidationErrors([
+	body('name').notEmpty().withMessage('name is required'),
+	body('lastName').notEmpty().withMessage('last name is required'),
+	body('email')
+		.isEmail()
+		.withMessage('invalid email format')
+		.custom(async (email, { req }) => {
+			const user = await User.findOne({ email })
+			if (user && user._id.toString() !== req.user.userId) {
+				throw new BadRequestError('email already exists')
+			}
+		}),
+	body('name').notEmpty().withMessage('name is required')
 ])
