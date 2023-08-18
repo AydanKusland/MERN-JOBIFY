@@ -36,10 +36,6 @@ app.use(express.static(path.resolve(__dirname, './public')))
 app.use(cookieParser())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-	res.send('Hello World')
-})
-
 app.get('/api/v1/test', (req, res) => {
 	res.json({ msg: 'test route' })
 })
@@ -47,6 +43,10 @@ app.get('/api/v1/test', (req, res) => {
 app.use('/api/v1/jobs', authenticateUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', authenticateUser, userRouter)
+
+app.get('*', (req, res) => {
+	res.sendFile(path.resolve(__dirname, './public', 'index.html'))
+})
 
 app.use('*', (req, res) => {
 	res.status(404).json({ msg: 'page not found' })
