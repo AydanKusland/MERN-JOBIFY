@@ -7,6 +7,16 @@ import {
 
 export const authRouter = new Router()
 
-authRouter.post('/register', validateRegisterInput, register)
-authRouter.post('/login', validateLoginInput, login)
+import rateLimiter from 'express-rate-limit'
+
+const apiLimiter = rateLimiter({
+	windowMs: 15 * 60 * 1000,
+	max: 15,
+	message: {
+		msg: 'Relax! Cool down! IP rate limit exceeded. Come back in 15 minutes.'
+	}
+})
+
+authRouter.post('/register', apiLimiter, validateRegisterInput, register)
+authRouter.post('/login', apiLimiter, validateLoginInput, login)
 authRouter.get('/logout', logout)
